@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../lib/app');
+const createHtml = require('../lib/utils/createHtml');
 
 describe('createResponse', () => {
   it('will return 404 if path not found', () => {
@@ -15,7 +16,7 @@ describe('createResponse', () => {
       .get('/green')
       .then(res => {
         expect(res.status).toEqual(200);
-        expect(res.text).toEqual('Yeehaa!');
+        expect(res.text).toEqual(createHtml('green'));
       });
   });
   it('will return 200 for GET to path = /red', () => {
@@ -23,7 +24,7 @@ describe('createResponse', () => {
       .get('/red')
       .then(res => {
         expect(res.status).toEqual(200);
-        expect(res.text).toEqual('Wahoo!');
+        expect(res.text).toEqual(createHtml('red'));
       });
   });
   it('will return 200 for GET to path = /blue', () => {
@@ -31,7 +32,32 @@ describe('createResponse', () => {
       .get('/blue')
       .then(res => {
         expect(res.status).toEqual(200);
-        expect(res.text).toEqual('Nice!');
+        expect(res.text).toEqual(createHtml('blue'));
+      });
+  });
+  it('will return 200 for GET to path = /blue', () => {
+    return request(app)
+      .get('/blue')
+      .then(res => {
+        expect(res.status).toEqual(200);
+        expect(res.text).toEqual(createHtml('blue'));
+      });
+  });
+  it('will return 200 for GET to path = /', () => {
+    return request(app)
+      .get('/')
+      .then(res => {
+        expect(res.status).toEqual(200);
+        expect(res.text).toEqual('hi');
+      });
+  });
+  it('will return 200 and echo for POST to path = /echo', () => {
+    return request(app)
+      .post('/echo')
+      .send('Yodeleyheehoo')
+      .then(res => {
+        expect(res.status).toEqual(200);
+        expect(res.text).toEqual('Yodeleyheehoo');
       });
   });
 });
