@@ -15,7 +15,23 @@ describe('createResponse', () => {
       .get('/green')
       .then(res => {
         expect(res.status).toEqual(200);
-        expect(res.body).toEqual('Yeehaa!');
+        expect(res.text).toEqual('Yeehaa!');
+      });
+  });
+  it('will return 200 for GET to path = /red', () => {
+    return request(app)
+      .get('/red')
+      .then(res => {
+        expect(res.status).toEqual(200);
+        expect(res.text).toEqual('Wahoo!');
+      });
+  });
+  it('will return 200 for GET to path = /blue', () => {
+    return request(app)
+      .get('/blue')
+      .then(res => {
+        expect(res.status).toEqual(200);
+        expect(res.text).toEqual('Nice!');
       });
   });
 });
